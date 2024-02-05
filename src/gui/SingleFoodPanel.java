@@ -13,9 +13,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import model.BellPepper;
 import model.Cheese;
+import model.Command;
 import model.DevilledChicken;
+import model.ExtraCheeseExpression;
 import model.Food;
 import model.FoodOrder;
+import model.FoodOrderExpression;
 import model.FoodTopping;
 import model.FoodToppingFactory;
 import model.Prawns;
@@ -43,6 +46,7 @@ public class SingleFoodPanel extends javax.swing.JPanel {
     private double price;
 
     private FoodOrder.Builder foodOrder;
+    private Command command;
 //    private final FoodTopping topping;
 
     /**
@@ -55,7 +59,7 @@ public class SingleFoodPanel extends javax.swing.JPanel {
         initComponents();
         this.food = food;
         this.shop = shop;
-              
+
         food_decorators = new LinkedList<>();
 
         this.originalFood = food.getTitle();
@@ -79,7 +83,7 @@ public class SingleFoodPanel extends javax.swing.JPanel {
 
         price = food.getPrice();
         updatePrice();
-        
+
         foodOrder = new FoodOrder.Builder()
                 .setFood(food)
                 .setSize(size)
@@ -132,17 +136,17 @@ public class SingleFoodPanel extends javax.swing.JPanel {
 
     }
 
-    public void decorateFood(String decorator) {
+    public void decorateFood(FoodTopping topping) {
         decorate_count++;
-        FoodTopping topping = FoodToppingFactory.addTopping(decorator);
-        System.out.println(topping);
-        food.addTopping(topping);
-//        food = topping.addFood(food);
-        System.out.println(food);
+//        FoodTopping topping = FoodToppingFactory.addTopping(decorator);
+//        System.out.println(topping);
+//        food.addTopping(topping);
+////        food = topping.addFood(food);
+//        System.out.println(food);
         foodOrder = foodOrder.setFood(food);
         food_decorators.add(topping.getTitle());
-                        displayCusomizationPanel();
-                updateToppingPrice();
+        displayCusomizationPanel();
+        updateToppingPrice();
 //        switch (decorator) {
 //            case FoodToppings.DECORATOR_CHEESE:
 //                decorate_count++;
@@ -634,7 +638,7 @@ public class SingleFoodPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         if (qty > 1) {
             qty -= 1;
-                    foodOrder = foodOrder.setQty(qty);
+            foodOrder = foodOrder.setQty(qty);
             jTextField1.setText(String.valueOf(qty));
             updatePrice();
         }
@@ -655,7 +659,9 @@ public class SingleFoodPanel extends javax.swing.JPanel {
     private void jCheckBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox1ItemStateChanged
         // TODO add your handling code here:
         if (evt.getStateChange() == ItemEvent.SELECTED) {
-            decorateFood(FoodToppings.DECORATOR_CHEESE);
+            command = new Command();
+            FoodTopping interpret = command.interpretExpression(FoodToppings.DECORATOR_CHEESE, this.food);
+            decorateFood(interpret);
         }
     }//GEN-LAST:event_jCheckBox1ItemStateChanged
 
@@ -663,7 +669,7 @@ public class SingleFoodPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         if (evt.getStateChange() == ItemEvent.SELECTED) {
             size = SIZE_MEDIUM;
-            
+
             foodOrder = foodOrder.setSize(size);
             updatePrice_Size();
             editCustomizationPanel_title();
@@ -683,7 +689,7 @@ public class SingleFoodPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         if (evt.getStateChange() == ItemEvent.SELECTED) {
             size = SIZE_LARGE;
-            
+
             foodOrder = foodOrder.setSize(size);
             updatePrice_Size();
             editCustomizationPanel_title();
@@ -693,28 +699,40 @@ public class SingleFoodPanel extends javax.swing.JPanel {
     private void jCheckBox2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox2ItemStateChanged
         // TODO add your handling code here:
         if (evt.getStateChange() == ItemEvent.SELECTED) {
-            decorateFood(FoodToppings.DECORATOR_PRAWNS);
+            command = new Command();
+            FoodTopping interpret = command.interpretExpression(FoodToppings.DECORATOR_PRAWNS, this.food);
+            decorateFood(interpret);
+//            decorateFood(FoodToppings.DECORATOR_PRAWNS);
         }
     }//GEN-LAST:event_jCheckBox2ItemStateChanged
 
     private void jCheckBox3ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox3ItemStateChanged
         // TODO add your handling code here:
         if (evt.getStateChange() == ItemEvent.SELECTED) {
-            decorateFood(FoodToppings.DECORATOR_DEVILLED_CHICKEN);
+            command = new Command();
+            FoodTopping interpret = command.interpretExpression(FoodToppings.DECORATOR_DEVILLED_CHICKEN, this.food);
+            decorateFood(interpret);
+//            decorateFood(FoodToppings.DECORATOR_DEVILLED_CHICKEN);
         }
     }//GEN-LAST:event_jCheckBox3ItemStateChanged
 
     private void jCheckBox5ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox5ItemStateChanged
         // TODO add your handling code here:
         if (evt.getStateChange() == ItemEvent.SELECTED) {
-            decorateFood(FoodToppings.DECORATOR_BELL_PEPPER);
+            command = new Command();
+            FoodTopping interpret = command.interpretExpression(FoodToppings.DECORATOR_BELL_PEPPER, this.food);
+            decorateFood(interpret);
+//            decorateFood(FoodToppings.DECORATOR_BELL_PEPPER);
         }
     }//GEN-LAST:event_jCheckBox5ItemStateChanged
 
     private void jCheckBox4ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox4ItemStateChanged
         // TODO add your handling code here:
         if (evt.getStateChange() == ItemEvent.SELECTED) {
-            decorateFood(FoodToppings.DECORATOR_TOMATO);
+            command = new Command();
+            FoodTopping interpret = command.interpretExpression(FoodToppings.DECORATOR_TOMATO, this.food);
+            decorateFood(interpret);
+//            decorateFood(FoodToppings.DECORATOR_TOMATO);
         }
     }//GEN-LAST:event_jCheckBox4ItemStateChanged
 
