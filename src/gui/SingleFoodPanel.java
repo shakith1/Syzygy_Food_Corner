@@ -16,8 +16,11 @@ import model.Cheese;
 import model.DevilledChicken;
 import model.Food;
 import model.FoodOrder;
+import model.FoodTopping;
+import model.FoodToppingFactory;
 import model.Prawns;
 import model.Tomato;
+import util.FoodToppings;
 import util.Resources;
 
 /**
@@ -28,12 +31,6 @@ public class SingleFoodPanel extends javax.swing.JPanel {
 
     private static final String SIZE_MEDIUM = "Medium";
     private static final String SIZE_LARGE = "Large";
-
-    private static final String DECORATOR_CHEESE = "cheese";
-    private static final String DECORATOR_PRAWNS = "prawns";
-    private static final String DECORATOR_DEVILLED_CHICKEN = "Devilled Chicken";
-    private static final String DECORATOR_BELL_PEPPER = "Bell Pepper";
-    private static final String DECORATOR_TOMATO = "Tomato";
 
     private Food food;
     private String originalFood;
@@ -136,50 +133,63 @@ public class SingleFoodPanel extends javax.swing.JPanel {
     }
 
     public void decorateFood(String decorator) {
-        switch (decorator) {
-            case DECORATOR_CHEESE:
-                decorate_count++;
-                food = new Cheese(food);
-                foodOrder = foodOrder.setFood(food);
-                food_decorators.add(food.getTitle());
-                displayCusomizationPanel();
+        decorate_count++;
+        FoodTopping topping = FoodToppingFactory.addTopping(decorator);
+        System.out.println(topping);
+        food.addTopping(topping);
+//        food = topping.addFood(food);
+        System.out.println(food);
+        foodOrder = foodOrder.setFood(food);
+        food_decorators.add(topping.getTitle());
+                        displayCusomizationPanel();
                 updateToppingPrice();
-                break;
-            case DECORATOR_PRAWNS:
-                decorate_count++;
-                food = new Prawns(food);
-                foodOrder = foodOrder.setFood(food);
-                food_decorators.add(food.getTitle());
-                displayCusomizationPanel();
-                updateToppingPrice();
-                break;
-            case DECORATOR_DEVILLED_CHICKEN:
-                decorate_count++;
-                food = new DevilledChicken(food);
-                foodOrder = foodOrder.setFood(food);
-                food_decorators.add(food.getTitle());
-                displayCusomizationPanel();
-                updateToppingPrice();
-                break;
-            case DECORATOR_BELL_PEPPER:
-                decorate_count++;
-                food = new BellPepper(food);
-                foodOrder = foodOrder.setFood(food);
-                food_decorators.add(food.getTitle());
-                displayCusomizationPanel();
-                updateToppingPrice();
-                break;
-            case DECORATOR_TOMATO:
-                decorate_count++;
-                food = new Tomato(food);
-                foodOrder = foodOrder.setFood(food);
-                food_decorators.add(food.getTitle());
-                displayCusomizationPanel();
-                updateToppingPrice();
-                break;
-            default:
-                displayCusomizationPanel();
-        }
+//        switch (decorator) {
+//            case FoodToppings.DECORATOR_CHEESE:
+//                decorate_count++;
+//                food = new Cheese(food);
+//                System.out.println(food);
+//                foodOrder = foodOrder.setFood(food);
+//                food_decorators.add(food.getTitle());
+//                displayCusomizationPanel();
+//                updateToppingPrice();
+//                break;
+//            case FoodToppings.DECORATOR_PRAWNS:
+//                decorate_count++;
+//                food = FoodTopping.addTopping(food, );
+//                System.out.println(food);
+////                food = new Prawns(food);
+//                foodOrder = foodOrder.setFood(food);
+//                food_decorators.add(food.getTitle());
+//                displayCusomizationPanel();
+//                updateToppingPrice();
+//                break;
+//            case FoodToppings.DECORATOR_DEVILLED_CHICKEN:
+//                decorate_count++;
+//                food = new DevilledChicken(food);
+//                foodOrder = foodOrder.setFood(food);
+//                food_decorators.add(food.getTitle());
+//                displayCusomizationPanel();
+//                updateToppingPrice();
+//                break;
+//            case FoodToppings.DECORATOR_BELL_PEPPER:
+//                decorate_count++;
+//                food = new BellPepper(food);
+//                foodOrder = foodOrder.setFood(food);
+//                food_decorators.add(food.getTitle());
+//                displayCusomizationPanel();
+//                updateToppingPrice();
+//                break;
+//            case FoodToppings.DECORATOR_TOMATO:
+//                decorate_count++;
+//                food = new Tomato(food);
+//                foodOrder = foodOrder.setFood(food);
+//                food_decorators.add(food.getTitle());
+//                displayCusomizationPanel();
+//                updateToppingPrice();
+//                break;
+//            default:
+//                displayCusomizationPanel();
+//        }
     }
 
     public void displayCusomizationPanel() {
@@ -645,7 +655,7 @@ public class SingleFoodPanel extends javax.swing.JPanel {
     private void jCheckBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox1ItemStateChanged
         // TODO add your handling code here:
         if (evt.getStateChange() == ItemEvent.SELECTED) {
-            decorateFood(DECORATOR_CHEESE);
+            decorateFood(FoodToppings.DECORATOR_CHEESE);
         }
     }//GEN-LAST:event_jCheckBox1ItemStateChanged
 
@@ -683,28 +693,28 @@ public class SingleFoodPanel extends javax.swing.JPanel {
     private void jCheckBox2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox2ItemStateChanged
         // TODO add your handling code here:
         if (evt.getStateChange() == ItemEvent.SELECTED) {
-            decorateFood(DECORATOR_PRAWNS);
+            decorateFood(FoodToppings.DECORATOR_PRAWNS);
         }
     }//GEN-LAST:event_jCheckBox2ItemStateChanged
 
     private void jCheckBox3ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox3ItemStateChanged
         // TODO add your handling code here:
         if (evt.getStateChange() == ItemEvent.SELECTED) {
-            decorateFood(DECORATOR_DEVILLED_CHICKEN);
+            decorateFood(FoodToppings.DECORATOR_DEVILLED_CHICKEN);
         }
     }//GEN-LAST:event_jCheckBox3ItemStateChanged
 
     private void jCheckBox5ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox5ItemStateChanged
         // TODO add your handling code here:
         if (evt.getStateChange() == ItemEvent.SELECTED) {
-            decorateFood(DECORATOR_BELL_PEPPER);
+            decorateFood(FoodToppings.DECORATOR_BELL_PEPPER);
         }
     }//GEN-LAST:event_jCheckBox5ItemStateChanged
 
     private void jCheckBox4ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox4ItemStateChanged
         // TODO add your handling code here:
         if (evt.getStateChange() == ItemEvent.SELECTED) {
-            decorateFood(DECORATOR_TOMATO);
+            decorateFood(FoodToppings.DECORATOR_TOMATO);
         }
     }//GEN-LAST:event_jCheckBox4ItemStateChanged
 
