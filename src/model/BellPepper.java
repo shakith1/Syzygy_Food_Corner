@@ -8,11 +8,7 @@ package model;
  *
  * @author nimsa
  */
-public class BellPepper extends FoodTopping {
-
-    public BellPepper(Food food) {
-        super(food);
-    }
+public class BellPepper implements FoodTopping {
 
     @Override
     public String getTitle() {
@@ -21,6 +17,6 @@ public class BellPepper extends FoodTopping {
 
     @Override
     public double getPrice() {
-        return this.food.getPrice() + 120;
+        return 120;
     }
 }

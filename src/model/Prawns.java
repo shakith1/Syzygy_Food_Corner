@@ -8,11 +8,7 @@ package model;
  *
  * @author nimsa
  */
-public class Prawns extends FoodTopping {
-
-    public Prawns(Food food) {
-        super(food);
-    }
+public class Prawns implements FoodTopping {
 
     @Override
     public String getTitle() {
@@ -21,7 +17,7 @@ public class Prawns extends FoodTopping {
 
     @Override
     public double getPrice() {
-        return this.food.getPrice() + 300;
+        return 300;
     }
 
 }

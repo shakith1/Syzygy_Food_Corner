@@ -4,28 +4,35 @@
  */
 package model;
 
+import java.util.HashMap;
+import util.FoodToppings;
+
 /**
  *
  * @author nimsa
  */
-public abstract class FoodTopping extends Food{
-    protected Food food;
+public interface FoodTopping {
 
-    public FoodTopping(Food food) {
-        this.food = food;
-    }
+//    protected Food food;
+//
+////    protected FoodTopping(Food food) {
+////        this.food = food;
+////    }
+//
+//    public FoodTopping addFood(Food food) {
+//        this.food = food;
+//        return this;
+//    }
 
-    @Override
-    public String getDescription() {
-        return "Food Toppings";
-    }
-    
-    public Food getOriginalFood(){
-        if(food instanceof FoodTopping){
-            return ((FoodTopping) food).getOriginalFood();
-        }
-        return food;
-    }
+    public abstract String getTitle();
+    public abstract double getPrice();
+
+//    public Food getOriginalFood() {
+//        if (food instanceof FoodTopping) {
+//            return ((FoodTopping) food).getOriginalFood();
+//        }
+//        return food;
+//    }
 
 //    @Override
 //    public void setPrice(double price) {
@@ -33,5 +40,4 @@ public abstract class FoodTopping extends Food{
 //        food.setPrice(price);
 //    }
 //    
-    
 }

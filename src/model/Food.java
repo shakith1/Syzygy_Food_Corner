@@ -4,6 +4,9 @@
  */
 package model;
 
+import java.awt.List;
+import java.util.ArrayList;
+
 /**
  *
  * @author nimsa
@@ -12,8 +15,10 @@ public abstract class Food {
 
     private String image;
     private double price;
+    private ArrayList<FoodTopping> foodToppingList;
 
     public Food() {
+        foodToppingList = new ArrayList();
     }
 
     public String getImage() {
@@ -24,12 +29,21 @@ public abstract class Food {
         this.image = image;
     }
 
+    public void addTopping(FoodTopping foodTopping) {
+        foodToppingList.add(foodTopping);
+    }
+    
     public abstract String getTitle();
 
     public abstract String getDescription();
 
     public double getPrice(){
-        return this.price;
+        double price = this.price;
+        for (FoodTopping foodTopping : foodToppingList) {
+            price+= foodTopping.getPrice();
+        }
+        return price;
+//        return this.price;
     }
     
     public void setPrice(double price){
