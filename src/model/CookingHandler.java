@@ -8,13 +8,11 @@ package model;
  *
  * @author nimsa
  */
-public abstract class FoodOrderExpression {
+public class CookingHandler extends OrderStepHandler {
 
-    protected Food food;
-
-    public FoodOrderExpression(Food food) {
-        this.food = food;
+    @Override
+    public void handleOrder(FoodOrder order) {
+        System.out.println("Order is being cooked. Moving to packing step.");
+        this.handler.handleOrder(order);
     }
-   
-    public abstract Food interpret();
 }

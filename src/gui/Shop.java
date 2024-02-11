@@ -4,13 +4,23 @@
  */
 package gui;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JPanel;
+import model.CommunicationMediator;
+import model.Customer;
 import model.Food;
+import model.FoodOrder;
 import model.FriedRice;
 import model.Kottu;
 import model.Noodles;
+import model.OrderManagementGroup;
 import model.Pasta;
 import model.Pizza;
+import model.UserComponent;
+import util.Messages;
 
 /**
  *
@@ -22,12 +32,18 @@ public class Shop extends javax.swing.JFrame {
     private Food food;
     private FoodMain food_;
 
+    private List<FoodOrder> orderList;
+
     /**
      * Creates new form Shop
      */
     public Shop() {
         initComponents();
         loadFoods();
+
+        jLabel1.grabFocus();
+
+        orderList = new ArrayList<>();
     }
 
     public void loadFoods() {
@@ -75,6 +91,22 @@ public class Shop extends javax.swing.JFrame {
         jPanel2.revalidate();
     }
 
+    public void addToOrderList(FoodOrder order) {
+        orderList.add(order);
+        System.out.println(orderList.size());
+    }
+
+    public void displayOrders() {
+        jPanel6.removeAll();
+        for (FoodOrder foodOrder : orderList) {
+            SingleOrder order = new SingleOrder(foodOrder);
+            order.display();
+            jPanel6.add(order);
+            jPanel6.repaint();
+            jPanel6.revalidate();
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -91,6 +123,9 @@ public class Shop extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
+        jPanel4 = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        jButton3 = new javax.swing.JButton();
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -105,7 +140,6 @@ public class Shop extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Syzygy Food Corner");
-        setPreferredSize(new java.awt.Dimension(1380, 850));
         setSize(new java.awt.Dimension(1380, 800));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -125,12 +159,31 @@ public class Shop extends javax.swing.JFrame {
 
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+
+        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel6.setLayout(new java.awt.GridLayout(0, 1));
+        jPanel4.add(jPanel6);
+
+        jButton3.setFont(new java.awt.Font("Century Schoolbook", 1, 18)); // NOI18N
+        jButton3.setText("Complete Order");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
@@ -142,8 +195,15 @@ public class Shop extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 587, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 587, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 506, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton3)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -192,6 +252,38 @@ public class Shop extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+
+        ClientMessage clientMessage = new ClientMessage();
+        OrderManagement orderManagement = new OrderManagement();
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int centerX = (int) ((screenSize.getWidth() - 2 * clientMessage.getWidth()) / 2);
+        int centerY = (int) ((screenSize.getHeight() - clientMessage.getHeight()) / 2);
+
+        clientMessage.setLocation(centerX, centerY);
+        orderManagement.setLocation(centerX + clientMessage.getWidth(), centerY);
+        clientMessage.setVisible(true);
+        orderManagement.setVisible(true);
+
+        Customer customer = new Customer(clientMessage);
+        OrderManagementGroup orderManagementGroup = new OrderManagementGroup(orderManagement);
+
+        CommunicationMediator mediator = new CommunicationMediator(customer, orderManagementGroup);
+        
+        customer.setMediator(mediator);
+        orderManagementGroup.setMediator(mediator);
+        
+        clientMessage.setCustomer(customer);
+        orderManagement.setManagementGroup(orderManagementGroup);
+        
+        customer.sendMessage(Messages.INITIAL_MESSAGE);
+
+//        OrderManagementTextMessage orderManagementTextMessage = new OrderManagementTextMessage();
+//        clientMessage.addMessage(orderManagementTextMessage);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -228,12 +320,15 @@ public class Shop extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JSeparator jSeparator2;
     // End of variables declaration//GEN-END:variables
 }

@@ -8,13 +8,12 @@ package model;
  *
  * @author nimsa
  */
-public abstract class FoodOrderExpression {
+public abstract class OrderStepHandler {
+    protected OrderStepHandler handler;
 
-    protected Food food;
-
-    public FoodOrderExpression(Food food) {
-        this.food = food;
+    public void setHanler(OrderStepHandler handler) {
+        this.handler = handler;
     }
-   
-    public abstract Food interpret();
+    
+    public abstract void handleOrder(FoodOrder order);
 }

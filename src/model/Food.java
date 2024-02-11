@@ -32,6 +32,10 @@ public abstract class Food {
     public void addTopping(FoodTopping foodTopping) {
         foodToppingList.add(foodTopping);
     }
+
+    public ArrayList<FoodTopping> getFoodToppingList() {
+        return foodToppingList;
+    }
     
     public abstract String getTitle();
 
@@ -39,11 +43,11 @@ public abstract class Food {
 
     public double getPrice(){
         double price = this.price;
+        
         for (FoodTopping foodTopping : foodToppingList) {
             price+= foodTopping.getPrice();
         }
         return price;
-//        return this.price;
     }
     
     public void setPrice(double price){

@@ -12,33 +12,33 @@ import util.FoodToppings;
  */
 public final class Command {
 
-    public FoodTopping interpretExpression(String command, Food food) {
+    public Food interpretExpression(String command, Food food) {
 
         FoodOrderExpression expression;
-        FoodTopping topping = null;
+        Food food_ = null;
 
         switch (command) {
             case FoodToppings.DECORATOR_CHEESE:
                 expression = new ExtraCheeseExpression(food);
-                topping = expression.interpret();
+                food_ = expression.interpret();
                 break;
             case FoodToppings.DECORATOR_BELL_PEPPER:
                 expression = new ExtraBellPepperExpression(food);
-                topping = expression.interpret();
+                food_ = expression.interpret();
                 break;
             case FoodToppings.DECORATOR_DEVILLED_CHICKEN:
                 expression = new ExtraDevilledChickenExpression(food);
-                topping = expression.interpret();
+                food_ = expression.interpret();
                 break;
             case FoodToppings.DECORATOR_PRAWNS:
                 expression = new ExtraPrawnsExpression(food);
-                topping = expression.interpret();
+                food_ = expression.interpret();
                 break;
             case FoodToppings.DECORATOR_TOMATO:
                 expression = new ExtraTomatoExpression(food);
-                topping = expression.interpret();
+                food_ = expression.interpret();
                 break;
         }
-        return topping;
+        return food_;
     }
 }

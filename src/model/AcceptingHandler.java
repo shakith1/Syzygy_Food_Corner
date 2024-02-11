@@ -8,13 +8,12 @@ package model;
  *
  * @author nimsa
  */
-public abstract class FoodOrderExpression {
-
-    protected Food food;
-
-    public FoodOrderExpression(Food food) {
-        this.food = food;
+public class AcceptingHandler extends OrderStepHandler {
+    
+    @Override
+    public void handleOrder(FoodOrder order) {
+         System.out.println("Order is accepted. Moving to cooking step.");
+        this.handler.handleOrder(order);
     }
-   
-    public abstract Food interpret();
+    
 }

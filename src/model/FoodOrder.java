@@ -4,6 +4,8 @@
  */
 package model;
 
+import gui.SingleFoodPanel;
+
 /**
  *
  * @author nimsa
@@ -30,6 +32,14 @@ public class FoodOrder {
 
     public int getQty() {
         return qty;
+    }
+    
+    public double getPrice(){
+        double price = this.food.getPrice()*this.qty;
+        if(this.size.equals(SingleFoodPanel.SIZE_LARGE)){
+            price += 200;
+        }
+        return price;
     }
   
     public static class Builder {

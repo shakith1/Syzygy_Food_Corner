@@ -17,10 +17,10 @@ public class ExtraBellPepperExpression extends FoodOrderExpression {
     }
 
     @Override
-    public FoodTopping interpret() {
+    public Food interpret() {
         FoodTopping topping = FoodToppingFactory.addTopping(FoodToppings.DECORATOR_BELL_PEPPER);
         this.food.addTopping(topping);
-        return topping;
+        return this.food;
     }
 
 }

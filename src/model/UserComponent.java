@@ -8,13 +8,10 @@ package model;
  *
  * @author nimsa
  */
-public abstract class FoodOrderExpression {
+public abstract class UserComponent {
+    protected CommunicationMediator mediator;
 
-    protected Food food;
-
-    public FoodOrderExpression(Food food) {
-        this.food = food;
+    public void setMediator(CommunicationMediator mediator) {
+        this.mediator = mediator;
     }
-   
-    public abstract Food interpret();
 }

@@ -17,10 +17,10 @@ public class ExtraCheeseExpression extends FoodOrderExpression{
     }
 
     @Override
-    public FoodTopping interpret() {
+    public Food interpret() {
         FoodTopping topping = FoodToppingFactory.addTopping(FoodToppings.DECORATOR_CHEESE);
         this.food.addTopping(topping);
-        return topping;
+        return this.food;
     }
     
 }

@@ -8,13 +8,11 @@ package model;
  *
  * @author nimsa
  */
-public abstract class FoodOrderExpression {
+public class HandOverToDriverHandler extends OrderStepHandler {
 
-    protected Food food;
-
-    public FoodOrderExpression(Food food) {
-        this.food = food;
+    @Override
+    public void handleOrder(FoodOrder order) {
+        System.out.println("Order is ready for delivery. Handing over to the driver.");
     }
-   
-    public abstract Food interpret();
+
 }

@@ -7,22 +7,16 @@ package gui;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ItemEvent;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import model.BellPepper;
-import model.Cheese;
 import model.Command;
-import model.DevilledChicken;
-import model.ExtraCheeseExpression;
 import model.Food;
 import model.FoodOrder;
-import model.FoodOrderExpression;
 import model.FoodTopping;
-import model.FoodToppingFactory;
-import model.Prawns;
-import model.Tomato;
 import util.FoodToppings;
 import util.Resources;
 
@@ -32,17 +26,15 @@ import util.Resources;
  */
 public class SingleFoodPanel extends javax.swing.JPanel {
 
-    private static final String SIZE_MEDIUM = "Medium";
-    private static final String SIZE_LARGE = "Large";
+    public static final String SIZE_MEDIUM = "Medium";
+    public static final String SIZE_LARGE = "Large";
 
     private Food food;
-    private String originalFood;
     private final Shop shop;
     private int qty;
     private String size;
     private int decorate_count;
 
-    private Queue<String> food_decorators;
     private double price;
 
     private FoodOrder.Builder foodOrder;
@@ -60,9 +52,6 @@ public class SingleFoodPanel extends javax.swing.JPanel {
         this.food = food;
         this.shop = shop;
 
-        food_decorators = new LinkedList<>();
-
-        this.originalFood = food.getTitle();
         decorate_count = 0;
 
         jRadioButton1.setSelected(true);
@@ -98,9 +87,7 @@ public class SingleFoodPanel extends javax.swing.JPanel {
     }
 
     private void updatePrice() {
-//        this.price = this.food.getPrice();
-//        jButton3.setText("Add Order (Rs. " + this.food.getPrice() + "0)");
-        jButton3.setText("Add Order (Rs. " + this.price * this.qty + "0)");
+        jButton3.setText("Add Order (Rs. " + String.format("%.2f", this.price * this.qty) + ")");
     }
 
     private void updateToppingPrice() {
@@ -110,12 +97,12 @@ public class SingleFoodPanel extends javax.swing.JPanel {
 
     private void updatePrice_Size() {
         if (size.equals(SIZE_LARGE)) {
-            this.food.setPrice(this.price + 200);
-            this.price += 200;
+            this.price = this.price + 200;
+//            this.food.setPrice(this.price);
             updatePrice();
         } else if (size.equals(SIZE_MEDIUM)) {
-            this.food.setPrice(this.price - 200);
-            this.price -= 200;
+            this.price = this.price - 200;
+//            this.food.setPrice(this.price);
             updatePrice();
         }
     }
@@ -136,64 +123,17 @@ public class SingleFoodPanel extends javax.swing.JPanel {
 
     }
 
-    public void decorateFood(FoodTopping topping) {
+    public void decorateFood() {
         decorate_count++;
 //        FoodTopping topping = FoodToppingFactory.addTopping(decorator);
 //        System.out.println(topping);
 //        food.addTopping(topping);
 ////        food = topping.addFood(food);
 //        System.out.println(food);
-        foodOrder = foodOrder.setFood(food);
-        food_decorators.add(topping.getTitle());
+        foodOrder = foodOrder.setFood(this.food);
+//        food_decorators.add(topping.getTitle());
         displayCusomizationPanel();
         updateToppingPrice();
-//        switch (decorator) {
-//            case FoodToppings.DECORATOR_CHEESE:
-//                decorate_count++;
-//                food = new Cheese(food);
-//                System.out.println(food);
-//                foodOrder = foodOrder.setFood(food);
-//                food_decorators.add(food.getTitle());
-//                displayCusomizationPanel();
-//                updateToppingPrice();
-//                break;
-//            case FoodToppings.DECORATOR_PRAWNS:
-//                decorate_count++;
-//                food = FoodTopping.addTopping(food, );
-//                System.out.println(food);
-////                food = new Prawns(food);
-//                foodOrder = foodOrder.setFood(food);
-//                food_decorators.add(food.getTitle());
-//                displayCusomizationPanel();
-//                updateToppingPrice();
-//                break;
-//            case FoodToppings.DECORATOR_DEVILLED_CHICKEN:
-//                decorate_count++;
-//                food = new DevilledChicken(food);
-//                foodOrder = foodOrder.setFood(food);
-//                food_decorators.add(food.getTitle());
-//                displayCusomizationPanel();
-//                updateToppingPrice();
-//                break;
-//            case FoodToppings.DECORATOR_BELL_PEPPER:
-//                decorate_count++;
-//                food = new BellPepper(food);
-//                foodOrder = foodOrder.setFood(food);
-//                food_decorators.add(food.getTitle());
-//                displayCusomizationPanel();
-//                updateToppingPrice();
-//                break;
-//            case FoodToppings.DECORATOR_TOMATO:
-//                decorate_count++;
-//                food = new Tomato(food);
-//                foodOrder = foodOrder.setFood(food);
-//                food_decorators.add(food.getTitle());
-//                displayCusomizationPanel();
-//                updateToppingPrice();
-//                break;
-//            default:
-//                displayCusomizationPanel();
-//        }
     }
 
     public void displayCusomizationPanel() {
@@ -207,14 +147,17 @@ public class SingleFoodPanel extends javax.swing.JPanel {
     }
 
     public void editCustomizationPanel_title() {
-        jLabel11.setText(this.originalFood + " " + this.size);
+        jLabel11.setText(this.food.getTitle() + " " + this.size);
     }
 
     public void editCustomizationPanel_toppings() {
         jPanel8.removeAll();
-        for (String food_decorator : food_decorators) {
-            createCustomText(food_decorator);
+
+        ArrayList<FoodTopping> foodToppingList = this.food.getFoodToppingList();
+        for (FoodTopping foodTopping : foodToppingList) {
+            createCustomText(foodTopping.getTitle());
         }
+
     }
 
     private void createCustomText(String text) {
@@ -647,9 +590,9 @@ public class SingleFoodPanel extends javax.swing.JPanel {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         FoodOrder order = foodOrder.build();
-        System.out.println(order.getFood().getTitle());
-        System.out.println(order.getSize());
-        System.out.println(order.getQty());
+        shop.addToOrderList(order);
+        shop.displayOrders();
+//        shop.loadFoods();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jCheckBox1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jCheckBox1StateChanged
@@ -660,8 +603,8 @@ public class SingleFoodPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         if (evt.getStateChange() == ItemEvent.SELECTED) {
             command = new Command();
-            FoodTopping interpret = command.interpretExpression(FoodToppings.DECORATOR_CHEESE, this.food);
-            decorateFood(interpret);
+            this.food = command.interpretExpression(FoodToppings.DECORATOR_CHEESE, this.food);
+            decorateFood();
         }
     }//GEN-LAST:event_jCheckBox1ItemStateChanged
 
@@ -700,8 +643,8 @@ public class SingleFoodPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         if (evt.getStateChange() == ItemEvent.SELECTED) {
             command = new Command();
-            FoodTopping interpret = command.interpretExpression(FoodToppings.DECORATOR_PRAWNS, this.food);
-            decorateFood(interpret);
+            this.food = command.interpretExpression(FoodToppings.DECORATOR_PRAWNS, this.food);
+            decorateFood();
 //            decorateFood(FoodToppings.DECORATOR_PRAWNS);
         }
     }//GEN-LAST:event_jCheckBox2ItemStateChanged
@@ -710,8 +653,8 @@ public class SingleFoodPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         if (evt.getStateChange() == ItemEvent.SELECTED) {
             command = new Command();
-            FoodTopping interpret = command.interpretExpression(FoodToppings.DECORATOR_DEVILLED_CHICKEN, this.food);
-            decorateFood(interpret);
+            this.food = command.interpretExpression(FoodToppings.DECORATOR_DEVILLED_CHICKEN, this.food);
+            decorateFood();
 //            decorateFood(FoodToppings.DECORATOR_DEVILLED_CHICKEN);
         }
     }//GEN-LAST:event_jCheckBox3ItemStateChanged
@@ -720,8 +663,8 @@ public class SingleFoodPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         if (evt.getStateChange() == ItemEvent.SELECTED) {
             command = new Command();
-            FoodTopping interpret = command.interpretExpression(FoodToppings.DECORATOR_BELL_PEPPER, this.food);
-            decorateFood(interpret);
+            this.food = command.interpretExpression(FoodToppings.DECORATOR_BELL_PEPPER, this.food);
+            decorateFood();
 //            decorateFood(FoodToppings.DECORATOR_BELL_PEPPER);
         }
     }//GEN-LAST:event_jCheckBox5ItemStateChanged
@@ -730,8 +673,8 @@ public class SingleFoodPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         if (evt.getStateChange() == ItemEvent.SELECTED) {
             command = new Command();
-            FoodTopping interpret = command.interpretExpression(FoodToppings.DECORATOR_TOMATO, this.food);
-            decorateFood(interpret);
+            this.food = command.interpretExpression(FoodToppings.DECORATOR_TOMATO, this.food);
+            decorateFood();
 //            decorateFood(FoodToppings.DECORATOR_TOMATO);
         }
     }//GEN-LAST:event_jCheckBox4ItemStateChanged
