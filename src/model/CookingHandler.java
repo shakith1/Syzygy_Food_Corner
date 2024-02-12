@@ -4,6 +4,8 @@
  */
 package model;
 
+import java.util.List;
+
 /**
  *
  * @author nimsa
@@ -11,8 +13,12 @@ package model;
 public class CookingHandler extends OrderStepHandler {
 
     @Override
-    public void handleOrder(FoodOrder order) {
-        System.out.println("Order is being cooked. Moving to packing step.");
-        this.handler.handleOrder(order);
+    public void handleOrder(Orders orders) {
+        System.out.println("Order is being cooked");
+        if(orders.isIsCooked()){
+            this.handler.handleOrder(orders);
+        }else{
+            this.order_gui.displayCooking(orders);
+        }
     }
 }

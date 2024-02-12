@@ -4,6 +4,8 @@
  */
 package gui;
 
+import java.util.List;
+import model.FoodOrder;
 import model.OrderManagementGroup;
 import util.Messages;
 
@@ -14,18 +16,29 @@ import util.Messages;
 public class OrderManagement extends javax.swing.JFrame {
 
     private OrderManagementMessage message;
+    private ManageOrder manageOrder;
+    private List<FoodOrder> orderList;
+    private OrderManagementGroup managementGroup;
 
     /**
      * Creates new form OrderManagement
      */
     public OrderManagement() {
         initComponents();
+    }
+
+    public OrderManagement(List<FoodOrder> orderList) {
+        initComponents();
+
+        this.orderList = orderList;
         createOrderMessage();
         addInitialPanel();
     }
 
     public void setManagementGroup(OrderManagementGroup managementGroup) {
+        this.managementGroup = managementGroup;
         this.message.setManagementGroup(managementGroup);
+//        this.manageOrder.setManagementGroup(managementGroup);
     }
 
     public void createOrderMessage() {
@@ -37,8 +50,8 @@ public class OrderManagement extends javax.swing.JFrame {
         textMessage.setTitle(Messages.CLIENT);
         this.message.addMessage(textMessage);
     }
-    
-    public void addSendingMessage(String message){
+
+    public void addSendingMessage(String message) {
         ClientTextMessage message_ = new ClientTextMessage(message);
         this.message.addMessage(message_);
     }
@@ -109,7 +122,7 @@ public class OrderManagement extends javax.swing.JFrame {
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(401, Short.MAX_VALUE))
+                .addContainerGap(424, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -158,10 +171,22 @@ public class OrderManagement extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        jPanel3.removeAll();
+        jPanel3.add(message);
+        jPanel3.repaint();
+        jPanel3.revalidate();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        if (manageOrder == null) {
+            manageOrder = new ManageOrder(orderList,managementGroup);
+        }
+        jPanel3.removeAll();
+//        manageOrder.displayInitial();
+        jPanel3.add(manageOrder);
+        jPanel3.repaint();
+        jPanel3.revalidate();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

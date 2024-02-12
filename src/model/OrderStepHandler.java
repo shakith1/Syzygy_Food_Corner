@@ -4,16 +4,25 @@
  */
 package model;
 
+import gui.ManageOrder;
+import java.util.List;
+
 /**
  *
  * @author nimsa
  */
 public abstract class OrderStepHandler {
+
     protected OrderStepHandler handler;
+    protected ManageOrder order_gui;
 
     public void setHanler(OrderStepHandler handler) {
         this.handler = handler;
     }
-    
-    public abstract void handleOrder(FoodOrder order);
+
+    public void setOrder_gui(ManageOrder order_gui) {
+        this.order_gui = order_gui;
+    }
+
+    public abstract void handleOrder(Orders orders);
 }

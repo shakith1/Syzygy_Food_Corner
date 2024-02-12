@@ -4,6 +4,9 @@
  */
 package model;
 
+import java.util.List;
+import util.Messages;
+
 /**
  *
  * @author nimsa
@@ -11,9 +14,13 @@ package model;
 public class AcceptingHandler extends OrderStepHandler {
     
     @Override
-    public void handleOrder(FoodOrder order) {
-         System.out.println("Order is accepted. Moving to cooking step.");
-        this.handler.handleOrder(order);
+    public void handleOrder(Orders orders) {
+         System.out.println("Order is accepted");
+         if(orders.isIsAccepted()){
+             this.handler.handleOrder(orders);
+         }else{
+             this.order_gui.displayAccepting(orders);
+         }
     }
     
 }

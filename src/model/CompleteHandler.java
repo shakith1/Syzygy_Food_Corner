@@ -4,21 +4,17 @@
  */
 package model;
 
-import java.util.List;
-
 /**
  *
  * @author nimsa
  */
-public class PackingHandler extends OrderStepHandler {
+public class CompleteHandler extends OrderStepHandler {
 
     @Override
     public void handleOrder(Orders orders) {
-        System.out.println("Order is being packed.");
-        if(orders.isIsPacked()){
-            this.handler.handleOrder(orders);
-        }else{
-            this.order_gui.displayPacking(orders);
-        }
+        System.out.println("Order Completed");
+
+        this.order_gui.displayCompleted(orders);
+
     }
 }

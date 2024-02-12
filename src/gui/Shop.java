@@ -256,7 +256,7 @@ public class Shop extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         ClientMessage clientMessage = new ClientMessage();
-        OrderManagement orderManagement = new OrderManagement();
+        OrderManagement orderManagement = new OrderManagement(orderList);
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int centerX = (int) ((screenSize.getWidth() - 2 * clientMessage.getWidth()) / 2);
@@ -279,9 +279,6 @@ public class Shop extends javax.swing.JFrame {
         orderManagement.setManagementGroup(orderManagementGroup);
         
         customer.sendMessage(Messages.INITIAL_MESSAGE);
-
-//        OrderManagementTextMessage orderManagementTextMessage = new OrderManagementTextMessage();
-//        clientMessage.addMessage(orderManagementTextMessage);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
